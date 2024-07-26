@@ -89,3 +89,4 @@ python test.py --save_path ./vgg_svhn/ --file_name model --model vgg --data svhn
 
 ### Contact for issues
 - JooYoung Moon, answn3475@ds.seoultech.ac.kr
+# Confidence_HGP
