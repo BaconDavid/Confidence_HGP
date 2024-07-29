@@ -127,6 +127,7 @@ def aurc_eaurc(risk_list):
 
     print("AURC {0:.2f}".format(aurc*1000))
     print("EAURC {0:.2f}".format(eaurc*1000))
+    print("optimal_risk_area {0:.2f}".format(optimal_risk_area*1000))
 
     return aurc, eaurc
 
@@ -176,5 +177,6 @@ def get_metric_values(loader, model, criterion,device='cpu'):
     return total_acc.item(), list_softmax, list_correct, list_logit
 
 
-def save_output(loader, label, label_onehot, model, criterion,device='cpu'):
+def save_output(loader, model, criterion,device='cpu'):
     acc, softmax, correct, logit = get_metric_values(loader, model, criterion,device)
+    return acc, softmax, correct, logit

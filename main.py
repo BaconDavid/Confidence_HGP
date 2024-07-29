@@ -146,7 +146,7 @@ def main():
                                                                         model,
                                                                         cls_criterion,
                                                                         device=args.device)
-    acc, softmax_lst, correct_lst, logit_lst = metrics.save_output(test_loader,test_label,test_onehot,model,cls_criterion,device=args.device)
+    acc, softmax_lst, correct_lst, logit_lst = metrics.save_output(test_loader,model,cls_criterion,device=args.device)
 
     softmax_array = np.array(softmax_lst)
     correct_array = np.array(correct_lst)
