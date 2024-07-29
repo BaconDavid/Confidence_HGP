@@ -44,7 +44,7 @@ class History(object):
         return (data - data_min) / (data_max - data_min)
 
     # get target & margin
-    def get_target_margin(self, data_idx1, data_idx2):
+    def get_target_margin(self, data_idx1, data_idx2,device):
         data_idx1 = data_idx1.cpu().numpy()
         cum_correctness1 = self.correctness[data_idx1]
         cum_correctness2 = self.correctness[data_idx2]
@@ -60,9 +60,9 @@ class History(object):
         less = np.array(target1 < target2, dtype='float') * (-1)
 
         target = greater + less
-        target = torch.from_numpy(target).float().cuda()
+        target = torch.from_numpy(target).float().to(device)
         # calc margin
         margin = abs(target1 - target2)
-        margin = torch.from_numpy(margin).float().cuda()
+        margin = torch.from_numpy(margin).float().to(device)
 
         return target, margin

@@ -3,8 +3,8 @@ import torch
 import torch.nn.functional as F
 from sklearn import metrics
 
-def calc_metrics(loader, label, label_onehot, model, criterion):
-    acc, softmax, correct, logit = get_metric_values(loader, model, criterion)
+def calc_metrics(loader, label, label_onehot, model, criterion,device='cpu'):
+    acc, softmax, correct, logit = get_metric_values(loader, model, criterion,device)
     # aurc, eaurc
     aurc, eaurc = calc_aurc_eaurc(softmax, correct)
     # fpr, aupr
@@ -131,7 +131,8 @@ def aurc_eaurc(risk_list):
     return aurc, eaurc
 
 # Get softmax, logit
-def get_metric_values(loader, model, criterion):
+def get_metric_values(loader, model, criterion,device='cpu'):
+    print(len(loader),'length of test loader')
     model.eval()
     with torch.no_grad():
         total_loss = 0
@@ -143,11 +144,11 @@ def get_metric_values(loader, model, criterion):
         list_logit = []
 
         for input, target, idx in loader:
-            input = input.cuda()
-            target = target.cuda()
+            input = input.to(device)
+            target = target.to(device)
 
             output = model(input)
-            loss = criterion(output, target).cuda()
+            loss = criterion(output, target).to(device)
 
             total_loss += loss.mean().item()
             pred = output.data.max(1, keepdim=True)[1]
@@ -173,3 +174,7 @@ def get_metric_values(loader, model, criterion):
         print('Accuracy {:.2f}'.format(total_acc))
 
     return total_acc.item(), list_softmax, list_correct, list_logit
+
+
+def save_output(loader, label, label_onehot, model, criterion,device='cpu'):
+    acc, softmax, correct, logit = get_metric_values(loader, model, criterion,device)

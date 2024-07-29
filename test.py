@@ -38,7 +38,10 @@ def main():
     train_loader, test_loader, \
     test_onehot, test_label = dataset.get_loader(args.data,
                                                  args.data_path,
-                                                 args.batch_size)
+                                                 args.batch_size
+                                                 args.train_data_label,
+                                                 args.test_data_label,
+                                                 args.label)
 
     # set num_class
     if args.data == 'cifar100':
